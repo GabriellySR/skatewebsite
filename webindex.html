@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário de Fotos</title>
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.0.1/dist/fullcalendar.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.0.1/dist/fullcalendar.min.js"></script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #fff; color: #333; text-align: center; padding: 20px;">
+  <h1>Escolha a data para baixar suas fotos</h1>
+  <!-- Calendário -->
+  <div id="calendar" style="max-width: 900px; margin: 0 auto;"></div>
+  
+  <!-- Exibição das fotos -->
+  <div id="photos" style="margin-top: 20px;"></div>
+
+  <script>
+    $(document).ready(function() {
+      // Iniciar o calendário
+      $('#calendar').fullCalendar({
+        // Eventos - Aqui você define as datas e as fotos associadas
+        events: [
+          { title: 'Fotos 01/04/2023', start: '2023-04-01' },
+          { title: 'Fotos 02/04/2023', start: '2023-04-02' },
+          { title: 'Fotos 03/04/2023', start: '2023-04-03' }
+        ],
+        dayClick: function(date, jsEvent, view) {
+          // Pega a data selecionada no formato YYYY-MM-DD
+          let selectedDate = date.format('YYYY-MM-DD');
+          $('#photos').html('<h3>Fotos para ' + selectedDate + ':</h3>');
+
+          // Aqui você pode carregar as fotos da data selecionada
+          let photos = getPhotosByDate(selectedDate);
+          
+          // Exibe as fotos ou links de download
+          if (photos.length > 0) {
+            photos.forEach(photo => {
+              $('#photos').append('<a href="' + photo + '" download>Baixar Foto</a><br>');
+            });
+          } else {
+            $('#photos').append('<p>Não há fotos para essa data.</p>');
+          }
+        }
+      });
+    });
+
+    // Função para retornar fotos de acordo com a data
+    function getPhotosByDate(date) {
+      // Aqui você deve retornar os links das fotos para essa data
+      let photos = {
+        '2023-04-01': [
+          '/photos/2023-04-01/photo1.jpg',
+          '/photos/2023-04-01/photo2.jpg',
+        ],
+        '2023-04-02': [
+          '/photos/2023-04-02/photo1.jpg',
+          '/photos/2023-04-02/photo2.jpg',
+        ],
+        '2023-04-03': [
+          '/photos/2023-04-03/photo1.jpg',
+        ]
+      };
+      return photos[date] || [];
+    }
+  </script>
+</body>
+</html>
