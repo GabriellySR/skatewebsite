@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkateShots</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background: #ffffff;
+      color: #333;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+      background-color: #f7f7f7;
+      border-bottom: 1px solid #eee;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      color: #777;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .date-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .date-item {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      border-radius: 8px;
+    }
+    .date-item:hover {
+      background: #eee;
+      transform: scale(1.05);
+    }
+    .photo-grid {
+      display: none;
+      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .photo-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+    .photo-item img {
+      width: 100%;
+      transition: transform 0.3s ease;
+    }
+    .photo-item:hover img {
+      transform: scale(1.05);
+    }
+    .download-btn {
+      display: block;
+      margin-top: 0.5rem;
+      text-align: center;
+      background: #000;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    .download-btn:hover {
+      background: #333;
+    }
+    .download-all-btn {
+      display: block;
+      width: 220px;
+      margin: 2rem auto 0;
+      text-align: center;
+      background: #000;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .download-all-btn:hover {
+      background: #333;
+    }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      .download-all-btn {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SkateShots</h1>
+    <p>Capture a vibe, baixe sua sessão — Seja bem-vindo(a) à nossa galeria de skate!</p>
+  </header>
+
+  <main>
+    <section class="date-grid">
+      <div class="date-item" onclick="showPhotos('2025-04-27')">27/04/2025</div>
+      <div class="date-item" onclick="showPhotos('2025-04-28')">28/04/2025</div>
+      <div class="date-item" onclick="showPhotos('2025-04-29')">29/04/2025</div>
+    </section>
+
+    <section id="photoGrid" class="photo-grid">
+      <!-- Fotos serão carregadas aqui -->
+    </section>
+
+    <a id="downloadAllBtn" class="download-all-btn" href="#" target="_blank" style="display: none;">Baixar Todas as Fotos</a>
+  </main>
+
+  <script>
+    const photoGrid = document.getElementById('photoGrid');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+
+    const photoData = {
+      '2025-04-27': {
+        photos: [
+          'https://via.placeholder.com/400x300?text=Skate+1',
+          'https://via.placeholder.com/400x300?text=Skate+2',
+          'https://via.placeholder.com/400x300?text=Skate+3'
+        ],
+        downloadLink: 'https://drive.google.com/your-folder-link-27'
+      },
+      '2025-04-28': {
+        photos: [
+          'https://via.placeholder.com/400x300?text=Skate+4',
+          'https://via.placeholder.com/400x300?text=Skate+5'
+        ],
+        downloadLink: 'https://drive.google.com/your-folder-link-28'
+      },
+      '2025-04-29': {
+        photos: [
+          'https://via.placeholder.com/400x300?text=Skate+6'
+        ],
+        downloadLink: 'https://drive.google.com/your-folder-link-29'
+      }
+    };
+
+    function showPhotos(date) {
+      photoGrid.innerHTML = '';
+      photoGrid.style.display = 'grid';
+
+      photoData[date].photos.forEach(photoUrl => {
+        const photoItem = document.createElement('div');
+        photoItem.className = 'photo-item';
+        photoItem.innerHTML = `
+          <img src="${photoUrl}" alt="Foto de skate">
+          <a class="download-btn" href="${photoUrl}" download>Baixar</a>
+        `;
+        photoGrid.appendChild(photoItem);
+      });
+
+      downloadAllBtn.style.display = 'block';
+      downloadAllBtn.href = photoData[date].downloadLink;
+    }
+  </script>
+</body>
+</html>
